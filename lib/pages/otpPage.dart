@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:olx/pages/homepage.dart';
+import 'package:olx/home.dart';
+
 
 class OtpPage extends StatefulWidget {
   final String phone;
@@ -86,7 +87,7 @@ class _OtpPageState extends State<OtpPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => HomePage(name: widget.name, phone: widget.phone),
+        builder: (context) => Home(name: widget.name, phone: widget.phone),
       ),
     );
   }
