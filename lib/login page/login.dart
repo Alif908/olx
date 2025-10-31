@@ -14,6 +14,8 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+
+  // Login button function
   void loginUser() {
     String name = nameController.text.trim();
     String phone = phoneController.text.trim();
@@ -28,8 +30,7 @@ class _LoginState extends State<Login> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => OtpPage(phone: phone,name:name),
-        // HomePage(name: name, phone: phone),
+        builder: (context) => OtpPage(phone: phone, name: name),
       ),
     );
   }
@@ -37,92 +38,81 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // Logo Image
               Padding(
-                padding: const EdgeInsets.all(100),
-                child: Container(child: Image.asset(ImagesCons.loginimg)),
+                padding: const EdgeInsets.only(bottom: 40),
+                child: Image.asset(
+                  ImagesCons.loginimg,
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.contain,
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(20),
-                child: Column(
-                  spacing: 20,
-                  children: [
-                    customtext(hint: "Name", controller: nameController),
-                    customtext(
-                      hint: "phone Number",
-                      controller: phoneController,
-                      keyboardType: TextInputType.phone,
-                    ),
-                    SizedBox(height: 10),
-                    ElevatedButton(
+
+              // Input Fields
+              Column(
+                children: [
+                  customTextField(
+                    hint: "Name",
+                    controller: nameController,
+                    icon: Icons.person_outline,
+                  ),
+                  const SizedBox(height: 20),
+                  customTextField(
+                    hint: "Phone Number",
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    icon: Icons.phone_android_outlined,
+                  ),
+                  const SizedBox(height: 30),
+
+                  // Login Button
+                  SizedBox(
+                    width: 180,
+                    height: 55,
+                    child: ElevatedButton(
                       onPressed: loginUser,
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        backgroundColor: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                      ),
-                      child: Container(
-                        height: 60,
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 246, 22, 6),
-                          borderRadius: BorderRadius.circular(
-                            30,
-                          ), // makes it pill-shaped
+                        backgroundColor: const Color(0xFFF61606),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
-                        alignment: Alignment.center, // centers the text
-                        child: const Text(
-                          "LOGIN",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                      ),
+                      child: const Text(
+                        "LOGIN",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 16,
                         ),
                       ),
                     ),
+                  ),
 
-                    Container(child: Text("----------or-----------")),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 70),
-                      child: Row(
-                        spacing: 20,
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(
-                                ImagesCons.googleLogo,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(
-                                ImagesCons.facebook_logo,
-                              ),
-                            ),
-                          ),
-                          InkWell(
-                            onTap: () {},
-                            child: CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(ImagesCons.ios_logo),
-                            ),
-                          ),
-                        ],
-                      ),
+                  const SizedBox(height: 30),
+                  const Text("---------- or ----------"),
+                  const SizedBox(height: 20),
+
+                  // Social Login Buttons
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        socialButton(ImagesCons.googleLogo),
+                        socialButton(ImagesCons.facebook_logo),
+                        socialButton(ImagesCons.ios_logo),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -131,38 +121,49 @@ class _LoginState extends State<Login> {
     );
   }
 
-  TextFormField customtext({
+  // Custom text field widget
+  Widget customTextField({
     required String hint,
+    required TextEditingController controller,
     IconData? icon,
-    Widget? suffixIcon,
-    TextEditingController? controller,
     TextInputType? keyboardType,
   }) {
     return TextFormField(
-      keyboardType: keyboardType,
       controller: controller,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
-        label: Text(hint),
+        labelText: hint,
+        prefixIcon: icon != null ? Icon(icon, color: Colors.grey[700]) : null,
         filled: true,
-        fillColor: Color.fromARGB(255, 243, 243, 243),
-        enabledBorder: OutlineInputBorder(
+        fillColor: const Color(0xFFF3F3F3),
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Color(0xffA8A8A9)),
+          borderSide: const BorderSide(color: Color(0xFFA8A8A9)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.black),
+          borderSide: const BorderSide(color: Colors.black),
         ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.red),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.black),
-        ),
-        prefixIcon: Icon(icon, size: 24, color: Color(0xff626262)),
-        suffixIcon: suffixIcon,
+      ),
+    );
+  }
+
+  // Social media button widget
+  Widget socialButton(String imagePath) {
+    return InkWell(
+      onTap: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Login with ${imagePath.split('/').last.split('.').first}",
+            ),
+          ),
+        );
+      },
+      child: CircleAvatar(
+        radius: 28,
+        backgroundColor: Colors.white,
+        backgroundImage: AssetImage(imagePath),
       ),
     );
   }

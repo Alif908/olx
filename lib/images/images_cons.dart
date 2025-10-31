@@ -5,4 +5,25 @@ class ImagesCons {
   static const facebook_logo = "assets/image/facebookLogo.png";
   static const ios_logo = "assets/image/ios_logo.jpeg";
   static const sell_logo = "assets/image/sell.png";
+  static const Cars = "assets/image/Car.jpg";
+  static const Properties = "assets/image/Properties.jpg";
+  static const Mobiles = "assets/image/mobile.jpg";
+  static const Jobs = "assets/image/job.jpg";
+  static const Fasion = "assets/image/fasion.jpg";
+  static const BooksSportsHobbies = "assets/image/bookssports.jpg";
+  static const bike = "assets/image/bike.jpg";
+  static const electronicsappliances = "assets/image/elctronicsappliances.jpg";
+  static const vehiclespare = "assets/image/vehiclespare.jpg";
+  static const furniture = "assets/image/furniture.jpg";
+  static const pets = "assets/image/pets.jpg";
+  static const services = "assets/image/services.jpg";
+  static const pickellogo = "assets/image/pickel logo.jpg";
+  static const tripadutersemnet = "assets/image/trpadutersmentimg.jpg";
+  static const zencar = "assets/image/zencar.jpg";
+  static const brezzacar = "assets/image/brezza.jpg";
+  static const micracar = "assets/image/micra.jpg";
+  static const redme = "assets/image/redme.jpg";
+  static const iphone13 = "assets/image/iphone 13.jpg";
+  static const notavailable = "assets/image/not available.png";
+  static const addsimg = "assets/image/ads post.png";
 }

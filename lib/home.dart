@@ -5,7 +5,8 @@ import 'package:olx/pages/account_screen.dart';
 import 'package:olx/pages/chat_screen.dart';
 import 'package:olx/pages/homepage.dart';
 import 'package:olx/pages/my_ads_screen.dart';
-import 'package:olx/sell_screen.dart';
+import 'package:olx/pages/profile.dart';
+import 'package:olx/pages/sell_screen.dart';
 
 class Home extends StatefulWidget {
   final String name;
@@ -18,9 +19,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectedscreen = 0;
-  List screen = [HomePage(), ChatScreen(), MyAdsScreen(), AccountScreen()];
+
   @override
   Widget build(BuildContext context) {
+    // ✅ Pass login data to ProfilePage here
+    final List<Widget> screens = [
+      const HomePage(),
+      const ChatScreen(),
+      const MyAdsScreen(),
+      ProfilePage(userName: widget.name, phone: widget.phone),
+    ];
+
     return Scaffold(
       floatingActionButton: Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -28,25 +37,40 @@ class _HomeState extends State<Home> {
         children: [
           FloatingActionButton(
             backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.circular(50),
-            ),
+            shape: const CircleBorder(),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SellScreen()),
+                MaterialPageRoute(
+                  builder: (context) => SellScreen(
+                    onPostCreated: (Map<String, dynamic> postData) {
+                      // ✅ You can handle what happens after posting
+                      print("New post created: $postData");
+
+                      // Example: show confirmation or refresh homepage
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Post created successfully!"),
+                        ),
+                      );
+
+                      // Optionally, return to Home after post
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               );
             },
             child: CircleAvatar(
               radius: 28,
-              backgroundImage: AssetImage(ImagesCons.sell_logo),
+              backgroundImage: const AssetImage(ImagesCons.sell_logo),
               backgroundColor: Colors.white,
             ),
           ),
-          Text(
-            "sell",
+          const Text(
+            "Sell",
             style: TextStyle(
-              color: const Color.fromARGB(255, 94, 93, 93),
+              color: Color.fromARGB(255, 94, 93, 93),
               fontSize: 15,
               fontWeight: FontWeight.w300,
             ),
@@ -57,24 +81,25 @@ class _HomeState extends State<Home> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniCenterDocked,
 
-      body: screen[selectedscreen],
+      body: screens[selectedscreen],
+
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedscreen,
         type: BottomNavigationBarType.fixed,
         onTap: (value) {
-          selectedscreen = value;
-          setState(() {});
+          setState(() {
+            selectedscreen = value;
+          });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.chat_bubble_outline_sharp),
-            label: "chat",
+            label: "Chat",
           ),
-
           BottomNavigationBarItem(icon: Icon(Icons.aod_sharp), label: "My Ads"),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle_outlined),
